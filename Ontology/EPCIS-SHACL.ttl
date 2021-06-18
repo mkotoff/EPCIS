@@ -720,7 +720,7 @@ epcis:TransformationID_TypeConstraint
     sh:nodeKind sh:IRI ;
     sh:name "transformationID type constraint" ;
     sh:message "transformationID must be an xsd:anyURI.  Please refer to the GS1 Core Business Vocabulary for standard vocabulary values for transformationID" 
-].
+.
 
 epcis:UOM_TypeConstraint
     sh:path epcis:uom ;
