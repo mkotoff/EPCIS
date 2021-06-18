@@ -181,7 +181,7 @@ epcis:TransformationEventShape
 
 epcis:BizTransactionListShape
     a sh:NodeShape;
-    sh:targetClass epcis:BusinessTransaction ;
+    sh:targetObjectsOf epcis:BusinessTransaction ;
     sh:property epcis:BizTransaction_IsMandatory ;
     sh:property epcis:BizTransaction_TypeConstraint ;
     sh:property epcis:BizTransactionType_TypeConstraint
@@ -189,7 +189,7 @@ epcis:BizTransactionListShape
 
 epcis:ErrorDeclarationShape
     a sh:NodeShape;
-    sh:targetClass epcis:ErrorDeclaration ;
+    sh:targetObjectsOf epcis:ErrorDeclaration ;
     sh:property epcis:DeclarationTime_IsMandatory ;
     sh:property epcis:Reason_IsMandatory ;
     sh:property epcis:CorrectiveEventIDs_IsMandatory ;
@@ -200,7 +200,7 @@ epcis:ErrorDeclarationShape
 
 epcis:SourceListShape
     a sh:NodeShape;
-    sh:targetClass epcis:SourceList ;
+    sh:targetObjectsOf epcis:SourceList ;
     sh:property epcis:Source_IsMandatory ;
     sh:property epcis:SourceDestType_IsMandatory ;
     sh:property epcis:Source_TypeConstraint ;
@@ -209,7 +209,7 @@ epcis:SourceListShape
 
 epcis:DestinationListShape
     a sh:NodeShape;
-    sh:targetClass epcis:DestinationList ;
+    sh:targetObjectsOf epcis:DestinationList ;
     sh:property epcis:Destination_IsMandatory ;
     sh:property epcis:SourceDestType_IsMandatory ;
     sh:property epcis:Destination_TypeConstraint ;
@@ -218,7 +218,7 @@ epcis:DestinationListShape
 
 epcis:QuantityElementShape
     a sh:NodeShape;
-    sh:targetClass epcis:QuantityElement ;
+    sh:targetObjectsOf epcis:QuantityElement ;
     sh:property epcis:EPCClass_IsMandatory ;
     sh:property epcis:Quantity_IsMandatory ;
     sh:property epcis:EPCClass_TypeConstraint ;
@@ -610,7 +610,7 @@ epcis:SourceDest_TypeConstraint
 
 epcis:SensorMetadataShape
     a sh:NodeShape;
-    sh:targetClass epcis:SensorMetadata ;
+    sh:targetObjectsOf epcis:SensorMetadata ;
     sh:property epcis:SensorTime_TypeConstraint ;
     sh:property epcis:SensorMetadataStartTime_TypeConstraint ;
     sh:property epcis:SensorMetadataEndTime_TypeConstraint ;
@@ -713,7 +713,6 @@ epcis:Source_TypeConstraint
     sh:name "source type constraint" ;
     sh:message "source must be an xsd:anyURI" 
 .
-
 
 epcis:TransformationID_TypeConstraint
     sh:path epcis:transformationID ;
