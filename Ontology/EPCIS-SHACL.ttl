@@ -170,34 +170,23 @@ epcis:TransformationEventShape
 
 epcis:BizTransactionListShape
     a sh:NodeShape;
-    sh:property epcis:BizTransaction_IsMandatory ;
-    sh:property epcis:BizTransaction_TypeConstraint ;
-    sh:property epcis:BizTransactionType_TypeConstraint .
+    sh:property epcis:BizTransactionList_IsMandatory ;
+    sh:property epcis:BizTransactionList_TypeConstraint .
 
 epcis:ErrorDeclarationShape
     a sh:NodeShape;
     sh:property epcis:DeclarationTime_IsMandatory ;
-    sh:property epcis:Reason_IsMandatory ;
-    sh:property epcis:CorrectiveEventIDs_IsMandatory ;
     sh:property epcis:DeclarationTime_TypeConstraint ;
     sh:property epcis:Reason_TypeConstraint ;
     sh:property epcis:CorrectiveEventIDs_TypeConstraint .
 
 epcis:SourceListShape
     a sh:NodeShape;
-    sh:targetClass epcis:SourceOrDestination;
-    sh:property epcis:Source_IsMandatory ;
-    sh:property epcis:SourceDestType_IsMandatory ;
-    sh:property epcis:Source_TypeConstraint ;
-    sh:property epcis:SourceDestType_TypeConstraint .
+    sh:property epcis:SourceList_TypeConstraint .
 
 epcis:DestinationListShape
     a sh:NodeShape;
-    sh:targetClass epcis:SourceOrDestination;
-    sh:property epcis:Destination_IsMandatory ;
-    sh:property epcis:SourceDestType_IsMandatory ;
-    sh:property epcis:Destination_TypeConstraint ;
-    sh:property epcis:SourceDestType_TypeConstraint .
+    sh:property epcis:DestinationList_TypeConstraint .
 
 epcis:QuantityElementShape
     a sh:NodeShape;
@@ -241,21 +230,21 @@ epcis:BizTransactionList_IsMandatory
 
 epcis:BizTransactionList_TypeConstraint
     sh:path epcis:bizTransactionList ;
-    sh:node epcis:BizTransactionListShape ;
+    sh:nodeKind sh:IRI ;
+    sh:node epcis:BizTransactiontShape ;
     sh:name "bizTransactionList type constraint" ;
-    sh:message "bizTransactionList expects a populated epcis:BizTransactionList" .
+    sh:message "bizTransactionList must be a sh:IRI and expects a populated epcis:BizTransaction" .
 
-epcis:BizTransactionType_TypeConstraint
-    sh:path epcis:type ;
+epcis:BizTransactiontShape a sh:NodeShape;
+    sh:property epcis:BizTransactionTypeShape .
+
+epcis:BizTransactionTypeShape a sh:PropertyShape;
+    sh:path epcis:bizTransactionType ;
     sh:nodeKind sh:IRI ;
+    sh:minCount 1;
+    sh:maxCount 1;
     sh:name "'type' type constraint" ;
-    sh:message "type (within epcis:BusinessTransaction) must be an sh:IRI." .
-
-epcis:BizTransaction_TypeConstraint
-    sh:path epcis:bizTransaction ;
-    sh:nodeKind sh:IRI ;
-    sh:name "bizTransaction type constraint" ;
-    sh:message "bizTransaction (within epcis:BusinessTransaction) must be an sh:IRI." .
+    sh:message "type (within epcis:BusinessTransaction) is mandatory and must be an sh:IRI." .
 
 epcis:ChildEPCs_TypeConstraint
     sh:path epcis:childEPCs ;
@@ -281,12 +270,10 @@ epcis:OutputEPCList_TypeConstraint
     sh:name "outputEPCList type constraint" ;
     sh:message "outputEPCList must be an sh:IRI." .
 
-epcis:CorrectiveEventIDs_IsMandatory
+epcis:CorrectiveEventIDs_TypeConstraint
     sh:path epcis:correctiveEventIDs ;
-    sh:name "correctiveEventIDs is mandatory within an epcis:ErrorDeclaration" ;
-    sh:minCount 1 ;
-    sh:maxCount 1 ;
-    sh:message "correctiveEventIDs is a mandatory field which must have a single value." .
+    sh:name "correctiveEventIDs is optional within an epcis:ErrorDeclaration" ;
+    sh:message "correctiveEventIDs is an opional field which must have a single value." .
 
 epcis:DeclarationTime_IsMandatory
     sh:path epcis:declarationTime ;
@@ -303,22 +290,9 @@ epcis:DeclarationTime_TypeConstraint
 
 epcis:DestinationList_TypeConstraint
     sh:path epcis:destinationList ;
-    sh:node epcis:DestinationListShape ;
+    sh:node epcis:SourceOrDestinationShape ;
     sh:name "destinationList type constraint" ;
-    sh:message "destinationList expects a populated epcis:DestinationList" .
-
-epcis:Destination_IsMandatory
-    sh:path epcis:destination ;
-    sh:name "destination is mandatory within an epcis:DestinationList" ;
-    sh:minCount 1 ;
-    sh:maxCount 1 ;
-    sh:message "destination is a mandatory field within epcis:DestinationList, in which it must have a single value." .
-
-epcis:Destination_TypeConstraint
-    sh:path epcis:destination ;
-    sh:nodeKind sh:IRI ;
-    sh:name "destination type constraint" ;
-    sh:message "destination must be an sh:IRI" .
+    sh:message "destinationList expects a populated epcis:SourceOrDestination" .
 
 epcis:Disposition_TypeConstraint
     sh:path epcis:disposition ;
@@ -352,20 +326,19 @@ epcis:ErrorDeclaration_TypeConstraint
     sh:name "errorDeclaration type constraint" ;
     sh:message "errorDeclaration expects a populated epcis:ErrorDeclaration" .
 
-epcis:ErrorReasonID_TypeConstraint
+epcis:Reason_TypeConstraint
     sh:path epcis:reason ;
     sh:nodeKind sh:IRI ;
     sh:name "error reason type constraint" ;
     sh:message "reason must be an sh:IRI." .
 
 epcis:EventID_TypeConstraint
-    sh:path epcis:eventID ;
     sh:or (
            [sh:nodeKind sh:BlankNode]
            [sh:nodeKind sh:IRI; sh:pattern "ni:///sha-256;.*\\?ver=CBV2\\.0"]
           );
     sh:name "eventID type constraint" ;
-    sh:message "eventID must be an sh:IRI." .
+    sh:message "eventID must be a blank node (missing) or a sh:IRI in the `ni:` scheme" .
 
 epcis:EventTime_IsMandatory
     sh:path epcis:eventTime ;
@@ -433,7 +406,7 @@ epcis:EventList_TypeConstraint
 
 epcis:EPCISDocumentShape 
     a sh:NodeShape;
-    sh:targetClass epcis:EPCISDocument  ;
+    sh:targetSubjectsOf epcis:epcisBody  ;
     sh:property epcis:schemaVersion_IsMandatory;
     sh:property epcis:creationDate_IsMandatory ;
     sh:property epcis:epcisBody_IsMandatory .
@@ -536,14 +509,14 @@ epcis:RecordTime_TypeConstraint
     sh:message "recordTime must be an xsd:dateTimeStamp" .
 
 epcis:SourceDestType_IsMandatory
-    sh:path epcis:type ;
-    sh:name "type is mandatory within an epcis:SourceList or epcis:DestinationList" ;
+    sh:path epcis:sourceOrDestinationType ;
+    sh:name "type is mandatory within an epcis:sourceList or epcis:destinationList" ;
     sh:minCount 1;
     sh:maxCount 1;
-    sh:message "type (of source/destination) is a mandatory field within an epcis:Source or epcis:Destination." .
+    sh:message "type (of source/destination) is a mandatory field within epcis:SourceOrDestination" .
 
-epcis:SourceDest_TypeConstraint
-    sh:path epcis:type ;
+epcis:SourceDestType_TypeConstraint
+    sh:path epcis:sourceOrDestinationType ;
     sh:nodeKind sh:IRI ;
     sh:name "'type' property type constraint" ;
     sh:message "type must be an sh:IRI" .
@@ -630,22 +603,22 @@ epcis:SensorReport_TypeConstraint
     
 epcis:SourceList_TypeConstraint
     sh:path epcis:sourceList ;
-    sh:node epcis:SourceListShape ;
+    sh:node epcis:SourceOrDestinationShape ;
     sh:name "sourceList type constraint" ;
-    sh:message "sourceList expects a populated epcis:SourceList" .
+    sh:message "sourceList expects a populated epcis:SourceOrDestination" .
 
-epcis:Source_IsMandatory
-    sh:path epcis:source ;
-    sh:name "source is mandatory within an epcis:SourceList" ;
+epcis:SourceDest_IsMandatory
+    sh:path epcis:sourceOrDestination ;
+    sh:name "sourceOrDestination is mandatory within an epcis:SourceOrDestination" ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
-    sh:message "source is a mandatory field within epcis:SourceList, in which it must have a single value." .
+    sh:message "sourceOrDestination is a mandatory field within epcis:SourceOrDestination, in which it must have a single value." .
 
-epcis:Source_TypeConstraint
-    sh:path epcis:source ;
+epcis:SourceDest_TypeConstraint
+    sh:path epcis:sourceOrDestination ;
     sh:nodeKind sh:IRI ;
-    sh:name "source type constraint" ;
-    sh:message "source must be an sh:IRI" .
+    sh:name "sourceOrDestination type constraint" ;
+    sh:message "sourceOrDestination must be an sh:IRI" .
 
 
 epcis:TransformationID_TypeConstraint
@@ -692,13 +665,13 @@ epcis:SensorMetadataEndTime_TypeConstraint
     sh:message "endTime must be an xsd:dateTime" .
 
 epcis:SensorReportType_TypeConstraint
-    sh:path epcis:type ;
+    sh:path epcis:measurementType ;
     sh:nodeKind sh:IRI ;
     sh:name "type type constraint" ;
     sh:message "type must be an sh:IRI" .
 
 epcis:SensorReportType_IsMandatoryConstraint
-    sh:path epcis:type ;
+    sh:path epcis:measurementType ;
     sh:name "type is mandatory within an epcis:SensorReport" ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
